@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa's Christmas Movie Picker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Festive&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+    </div>
+    <header>
+        <h1>Santa's Christmas Movie Picker</h1>
+        <p>Add your favorite Christmas movies and let Santa pick three for movie night!</p>
+    </header>
+    <main>
+        <section class="add-movie">
+            <h2>Add a Movie</h2>
+            <form id="movie-form">
+                <label for="title">Title:</label>
+                <input type="text" id="title" required>
+                <label for="year">Year (optional):</label>
+                <input type="number" id="year" min="1900" max="2025">
+                <label for="description">Description (optional):</label>
+                <textarea id="description"></textarea>
+                <button type="submit">Add Movie</button>
+            </form>
+        </section>
+        <section class="movie-list">
+            <h2>Your Movie List</h2>
+            <ul id="movie-list"></ul>
+            <button id="pick-movies" disabled>Let Santa Pick 3 Movies!</button>
+        </section>
+        <section class="movie-picks" id="movie-picks">
+            <h2>Santa's Picks for Movie Night!</h2>
+            <div id="picks-list"></div>
+            <button id="pick-again">Pick Again</button>
+        </section>
+    </main>
+    <footer>
+        <p>Merry Christmas! 🎄 Made with love by [Your Name]</p>
+    </footer>
+    <audio id="jingle" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
