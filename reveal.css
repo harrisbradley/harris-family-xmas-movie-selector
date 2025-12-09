@@ -1,0 +1,253 @@
+:root{
+  --xmas-red: #b71c1c;
+  --xmas-green: #2e7d32;
+  --gold: #f4c95d;
+  --bg: linear-gradient(180deg, #081229 0%, #0b1b2b 100%);
+  --card-bg: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.03);
+}
+
+/* Root and background */
+.xmas-reveal-root{
+  position: relative;
+  overflow: visible;
+  padding: 2rem;
+  background: var(--bg);
+  color: #fff;
+  border-radius: 12px;
+  min-height: 320px;
+  box-shadow: 0 6px 30px rgba(2,8,23,0.6);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Snow background using repeating radial gradients and keyframe movement */
+.snow-layer{
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.07) 1px, transparent 2px),
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 2px),
+    radial-gradient(rgba(255,255,255,0.02) 1px, transparent 2px);
+  background-size: 120px 120px, 60px 60px, 240px 240px;
+  opacity: 0.95;
+  animation: drift 12s linear infinite;
+  z-index: 1;
+  mix-blend-mode: screen;
+  transform: translateZ(0);
+}
+
+@keyframes drift{
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: -200px 400px, 100px 600px, -400px 800px; }
+}
+
+/* Garland & twinkling lights at the top */
+.garland{
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 96px;
+  pointer-events: none;
+  z-index: 5;
+}
+.garland-string{
+  position: absolute;
+  left: 0; right: 0; top: 30px;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.0), rgba(0,0,0,0.12));
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+}
+
+/* lights */
+.light{
+  position: absolute;
+  top: 12px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255,255,255,0.12);
+  opacity: 0.98;
+  transform-origin: center;
+  animation: twinkle 1.8s infinite ease-in-out;
+}
+.light-1{ left: 18%; background: var(--xmas-red); animation-delay: 0s; }
+.light-2{ left: 34%; background: var(--gold); animation-delay: 0.2s; }
+.light-3{ left: 56%; background: var(--xmas-green); animation-delay: 0.4s; }
+.light-4{ left: 78%; background: #9c27b0; animation-delay: 0.6s; }
+
+@keyframes twinkle{
+  0%,100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(255,255,255,0.05)); opacity: 0.9; }
+  50% { transform: scale(1.45); filter: drop-shadow(0 0 12px rgba(255,255,255,0.3)); opacity: 1; }
+}
+
+/* star decoration */
+.star{
+  position: absolute;
+  right: 8%;
+  top: 6px;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle at 30% 30%, #fff8d6, #ffd54f);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+  animation: star-sway 3.5s ease-in-out infinite;
+  opacity: 0.95;
+}
+
+@keyframes star-sway{
+  0%,100%{ transform: rotate(-6deg) translateY(0); }
+  50%{ transform: rotate(6deg) translateY(-6px); }
+}
+
+/* Container for the list and button */
+.reveal-container{
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+/* Reveal button */
+.reveal-button{
+  background: linear-gradient(180deg, var(--xmas-red), #7f0000);
+  border: none;
+  color: white;
+  padding: 0.7rem 1.1rem;
+  border-radius: 36px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  box-shadow: 0 6px 20px rgba(183,28,28,0.35), inset 0 -3px 6px rgba(0,0,0,0.25);
+  cursor: pointer;
+  z-index: 12;
+  transition: transform 160ms ease, box-shadow 160ms;
+}
+.reveal-button:active{ transform: translateY(2px) scale(0.997); }
+
+/* The list layout */
+.movie-list{
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(1, minmax(280px, 520px));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 12;
+}
+
+/* Each item: hidden until it becomes visible */
+.movie-item{
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 450ms cubic-bezier(.2,.9,.2,1), transform 450ms cubic-bezier(.2,.9,.2,1);
+  will-change: opacity, transform;
+  display: flex;
+  justify-content: center;
+}
+.movie-item.visible{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Decorative card */
+.movie-card{
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+  position: relative;
+  overflow: hidden;
+}
+
+/* small left/right holly decorative shapes */
+.movie-decor{
+  width: 12px;
+  height: 36px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(0,0,0,0.02));
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+}
+.movie-decor.left{ transform: rotate(-18deg); }
+.movie-decor.right{ transform: rotate(18deg); }
+
+/* content area */
+.movie-content{
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex: 1;
+}
+.movie-index{
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  display: inline-grid;
+  place-items: center;
+  font-weight: 800;
+  background: linear-gradient(180deg,var(--gold), #d9a83b);
+  color: #2b1b01;
+  border-radius: 50%;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.4), inset 0 -4px 6px rgba(255,255,255,0.2);
+  font-size: 1rem;
+}
+
+/* Title - festive font-like weight */
+.movie-title{
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+
+/* Subtle floating and sparkle effect for visible cards */
+.movie-item.visible .movie-card{
+  animation: floaty 6s ease-in-out infinite;
+}
+@keyframes floaty{
+  0%{ transform: translateY(0); }
+  50%{ transform: translateY(-6px); }
+  100%{ transform: translateY(0); }
+}
+
+/* Confetti wrapper and pieces */
+.confetti-wrapper{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10%;
+  height: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+.confetti{
+  position: absolute;
+  top: 0;
+  animation: confetti-fall 2.4s cubic-bezier(.2,.7,.2,1) forwards;
+  opacity: 0.98;
+  border-radius: 2px;
+}
+@keyframes confetti-fall{
+  0%{
+    transform: translateY(-8px) rotate(0deg);
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(520px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* small responsive tweaks */
+@media (max-width: 520px){
+  .movie-list{ grid-template-columns: 1fr; }
+  .garland{ display: none; } /* hide decoration on tiny screens if it feels cramped */
+}
